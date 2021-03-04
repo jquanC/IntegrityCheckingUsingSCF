@@ -1,0 +1,12 @@
+com\fchen_group\TPDSInScf\Utils\ReedSolomon\ReedSolomon.class
+com\fchen_group\TPDSInScf\Run\ScfHandle.class
+com\fchen_group\TPDSInScf\Utils\ReedSolomon\SampleDecoder.class
+com\fchen_group\TPDSInScf\Core\IntegrityAuditing.class
+com\fchen_group\TPDSInScf\Core\ChallengeData.class
+com\fchen_group\TPDSInScf\Utils\ReedSolomon\SampleEncoder.class
+com\fchen_group\TPDSInScf\Core\ProofData.class
+com\fchen_group\TPDSInScf\Core\PseudoRandom.class
+com\fchen_group\TPDSInScf\Utils\ReedSolomon\Galois.class
+com\fchen_group\TPDSInScf\Utils\ReedSolomon\Matrix.class
+com\fchen_group\TPDSInScf\Run\Client.class
+com\fchen_group\TPDSInScf\Utils\CloudAPI.class
