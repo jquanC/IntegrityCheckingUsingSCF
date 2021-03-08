@@ -116,8 +116,8 @@ public class ScfHandle {
         System.out.println("secretKey: "+secretKey);
         System.out.println("sessionToken: "+sessionToken);*/
 
-        String secretId = "*************************";
-        String secretKey = "*************************";
+        String secretId = "*************************"; //Using your cloud Id and Key
+        String secretKey = "*************************";//
         CloudAPI cloudAPI = new CloudAPI(secretId, secretKey,regionName, bucketName);
 
         //get ProofData from cloud by using challengeData from cloud
