@@ -17,6 +17,7 @@ public class IntegrityAuditing {
     private int PARITY_SHARDS; //num of ecc parity bytes , 32 in this proto;
     private int SHARD_NUMBER; // the num of blocks
 
+
     private long fileSize;
     public final int BYTES_IN_INT = 4;
     private long storeSize;
@@ -73,7 +74,9 @@ public class IntegrityAuditing {
         this.sKey = sBuffer2.toString();
     }
 
-    public void outSource() {
+    public long outSource() {
+
+        long start_time_process = System.nanoTime();
 
         this.parity = new byte[SHARD_NUMBER][];
         ReedSolomon reedSolomon = new ReedSolomon(DATA_SHARDS, PARITY_SHARDS);
@@ -99,7 +102,10 @@ public class IntegrityAuditing {
                 parity[i][j] = Galois.add(parity[i][j], randoms[j]);
             }
         }
-
+        long end_time_process = System.nanoTime();
+        long timeProcessData = end_time_process - start_time_process;
+        System.out.println("Process phase finished");
+        return timeProcessData;
     }
 
     /**/

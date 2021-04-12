@@ -56,10 +56,10 @@ public class CloudAPI {
         assert regionName != null;
         assert bucketName != null;
         //读取配置文件成功说明:
-        System.out.println("secretId:" + secretId);
+       /* System.out.println("secretId:" + secretId);
         System.out.println("secretKey:" + secretKey);
         System.out.println("regionName:" + regionName);
-        System.out.println("bucketName:" + bucketName);
+        System.out.println("bucketName:" + bucketName);*/
 
         //initial  operation
         COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);

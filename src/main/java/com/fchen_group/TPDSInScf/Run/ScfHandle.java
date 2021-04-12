@@ -24,7 +24,7 @@ public class ScfHandle {
                 req.getBody() +
                 req.getHttpMethod() + "\n"
         );*/
-        System.out.println("request's body content is=" + req.getBody());
+        //System.out.println("request's body content is=" + req.getBody());
 
         //get challengeData from the body
         ChallengeData challengeData = null;
@@ -33,7 +33,7 @@ public class ScfHandle {
         if (receiveBody.contains("coefficients")) {
             int indexOfCoe = receiveBody.indexOf("coefficients");
             reGetDataStr = receiveBody.substring(indexOfCoe - 2);
-            System.out.println("reGetDataStr of challengeData:" + reGetDataStr);
+           // System.out.println("reGetDataStr of challengeData:" + reGetDataStr);
             challengeData = JSON.parseObject(reGetDataStr, ChallengeData.class);
         } else {
             System.out.println("SCF receive challenge data unsuccessfully");
@@ -116,8 +116,8 @@ public class ScfHandle {
         System.out.println("secretKey: "+secretKey);
         System.out.println("sessionToken: "+sessionToken);*/
 
-        String secretId = "*************************"; //Using your cloud Id and Key
-        String secretKey = "*************************";//
+        String secretId = "AKIDWp31jBikfJhqiUPZ1EB5l8F90cy9mlBY"; //Using your cloud Id and Key
+        String secretKey = "34nGqAF2eMplQoxqUq7BzWmlTu9CzWWN";//
         CloudAPI cloudAPI = new CloudAPI(secretId, secretKey,regionName, bucketName);
 
         //get ProofData from cloud by using challengeData from cloud
@@ -132,11 +132,11 @@ public class ScfHandle {
         }
         System.out.println("down load from COS successfully");
         //Test
-        System.out.println("**DownloadData in SCF"+JSON.toJSONString(downloadData));
-        System.out.println("**DownloadParity in SCF"+JSON.toJSONString(downloadParity));
+       // System.out.println("**DownloadData in SCF"+JSON.toJSONString(downloadData));
+        //System.out.println("**DownloadParity in SCF"+JSON.toJSONString(downloadParity));
         ProofData proofData = integrityAuditing.prove(challengeData,downloadData,downloadParity);
         //Test
-        System.out.println("proofData in SCF"+JSON.toJSONString(proofData));
+       // System.out.println("proofData in SCF"+JSON.toJSONString(proofData));
         //返回ProofData 给Client
 
         APIGatewayProxyResponseEvent rep = new APIGatewayProxyResponseEvent();
