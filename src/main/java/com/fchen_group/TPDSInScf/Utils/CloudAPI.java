@@ -9,7 +9,6 @@ import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.GetObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
-//import com.sun.security.ntlm.Client;
 
 
 import java.io.File;
@@ -18,17 +17,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/*
+/**
  * Provide a unified interface to access the cloud object storage
- * This class have two method:    uploadFile  、 downloadPartFile
+ * This class have two method:    uploadFile, downloadPartFile
  * */
+
 public class CloudAPI {
+
     private COSClient cosClient;
     private String bucketName;
     private String regionName;
 
 
-    //Initial a COS client
+    /**
+     * Initial a COS client with configuration file path
+     * used in Client
+     * @param cosConfigFilePath  configure file path */
     public CloudAPI(String cosConfigFilePath) {
         String secretId = null;
         String secretKey = null;
@@ -55,11 +59,6 @@ public class CloudAPI {
         assert secretKey != null;
         assert regionName != null;
         assert bucketName != null;
-        //读取配置文件成功说明:
-       /* System.out.println("secretId:" + secretId);
-        System.out.println("secretKey:" + secretKey);
-        System.out.println("regionName:" + regionName);
-        System.out.println("bucketName:" + bucketName);*/
 
         //initial  operation
         COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
@@ -69,7 +68,13 @@ public class CloudAPI {
 
     }
 
-    //public CloudAPI(String secretId,String secretKey,String sessionToken,String regionName, String bucketName){
+    /**
+     * Initial a COS client with param
+     * used in SCF
+     * @param secretId
+     * @param secretKey
+     * @param regionName
+     * @param bucketName*/
     public CloudAPI(String secretId, String secretKey, String regionName, String bucketName) {
         this.bucketName = bucketName;
         this.regionName = regionName;
@@ -79,21 +84,28 @@ public class CloudAPI {
         Region region = new Region(regionName);
         ClientConfig clientConfig = new ClientConfig(region);
         cosClient = new COSClient(cred, clientConfig);
-        //使用临时密钥对和token，初始化方法有所不同
-       /* BasicSessionCredentials cred = new BasicSessionCredentials(secretId, secretKey, sessionToken);
+
+        //Use temporary key pair and token, the initialization method is different
+       /*
+        BasicSessionCredentials cred = new BasicSessionCredentials(secretId, secretKey, sessionToken);
         Region region = new Region(regionName);
         ClientConfig clientConfig = new ClientConfig(region);
         COSClient cosClient = new COSClient(cred, clientConfig);
         System.out.println("creat cosClient successfully ");*/
     }
 
-    /**/
+    /**
+     * upload data to cloud object storage
+     * @param localFilePath of data to be uploaded
+     * @param cloudFileName the file name of data in the cloud object storage*/
     public void uploadFile(String localFilePath, String cloudFileName) {
         File localFile = new File(localFilePath);
         PutObjectResult putObjectResult = cosClient.putObject(bucketName, cloudFileName, localFile);
     }
 
-    /**/
+    /**
+     * down file from COS from the specified location
+     */
     public byte[] downloadPartFile(String cloudFileName, long startPos, int length) {
         COSObject cosObject;
 

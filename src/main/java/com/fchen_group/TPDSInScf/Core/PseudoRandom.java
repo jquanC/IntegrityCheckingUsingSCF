@@ -7,6 +7,10 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+/**
+ * The PseudoRandom is the basic tools for our system implementation,we use an open algorithm source code
+ * any PseudoRandom can be adopted
+ * */
 
 public class PseudoRandom {
 

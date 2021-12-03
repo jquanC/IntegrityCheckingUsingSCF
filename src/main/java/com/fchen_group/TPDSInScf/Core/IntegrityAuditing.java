@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * This class implements each process of the auditing lifecycle
+ */
+
 public class IntegrityAuditing {
     private int DATA_SHARDS; //num of message bytes ,  223 in this protocol
     private int PARITY_SHARDS; //num of ecc parity bytes , 32 in this proto;
@@ -21,19 +25,25 @@ public class IntegrityAuditing {
     private long fileSize;
     public final int BYTES_IN_INT = 4;
     private long storeSize;
-    private String Key;
+    private String Key; //
     private String sKey;
     private String filePath;
 
     public byte[][] originalData;//the source data,stored as blocks
     public byte[][] parity; // the final calculated parity
-    public int len = 16; //16 means the key has 16 chars, one chars=8bit, the key's security level is 128
+    public int len = 16; //16 means the key has 16 chars, one chars=8bit, the key's security level is satisfied 128 bit
 
-    public IntegrityAuditing(int DATA_SHARDS, int PARITY_SHARDS){
+    /**
+     * Construction method , used in SCF
+     */
+    public IntegrityAuditing(int DATA_SHARDS, int PARITY_SHARDS) {
         this.DATA_SHARDS = DATA_SHARDS;
         this.PARITY_SHARDS = PARITY_SHARDS;
     }
 
+    /**
+     * Construction method , used in client
+     */
     public IntegrityAuditing(String filePath, int BLOCK_SHARDS, int DATA_SHARDS) throws IOException {
 
         this.filePath = filePath;
@@ -56,6 +66,9 @@ public class IntegrityAuditing {
 
     }
 
+    /**
+     * Used to generate two secret key
+     */
     public void genKey() {
         String chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -74,6 +87,9 @@ public class IntegrityAuditing {
         this.sKey = sBuffer2.toString();
     }
 
+    /**
+     * Calculate the tags of the source data
+     */
     public long outSource() {
 
         long start_time_process = System.nanoTime();
@@ -86,7 +102,7 @@ public class IntegrityAuditing {
         }
         //Multiply a sKey num
         for (int i = 0; i < parity.length; i++) {
-            byte[] sKeyBytes = sKey.getBytes(); //doc：使用给定的 charset 将此 String 编码到 byte 序列，并将结果存储到新的 byte 数组
+            byte[] sKeyBytes = sKey.getBytes();
             if (sKeyBytes.length != parity[i].length) {
                 System.out.println("Error:  sKeyBytes.length != parity.length");
             } else {
@@ -108,7 +124,9 @@ public class IntegrityAuditing {
         return timeProcessData;
     }
 
-    /**/
+    /**
+     * Generate the challenge data for auditing
+     */
     public ChallengeData audit(int challengeLen) {
         byte[] coefficients = new byte[challengeLen];
         int[] index = new int[challengeLen];
@@ -122,7 +140,13 @@ public class IntegrityAuditing {
         return new ChallengeData(index, coefficients);
     }
 
-    /**/
+    /**
+     * Calculate the proofDate after receiving the challenge data and retrieve data from the cloud
+     *
+     * @param challengeData
+     * @param downloadData   the challenged source data
+     * @param downloadParity the challenged parity data
+     */
     public ProofData prove(ChallengeData challengeData, byte[][] downloadData, byte[][] downloadParity) {
         byte[] dataProof = new byte[DATA_SHARDS];
         byte[] parityProof = new byte[PARITY_SHARDS];
@@ -148,12 +172,15 @@ public class IntegrityAuditing {
                 dataProof[j] = Galois.add(dataProof[j], tempData[j]);
             }
         }
-        ProofData proofData = new ProofData(dataProof,parityProof);
+        ProofData proofData = new ProofData(dataProof, parityProof);
         return proofData;
 
     }
 
-    /**/
+    /**
+     * To calculate the integrity audit result
+     * @param  challengeData
+     * @param proofData  proofData return by SCF*/
     public boolean verify(ChallengeData challengeData, ProofData proofData) {
         byte[] verifyParity = new byte[PARITY_SHARDS];
         byte[] reCalParity;
@@ -182,7 +209,7 @@ public class IntegrityAuditing {
             byte[] sKeyBytes = sKey.getBytes();
             verifyParity[j] = Galois.divide(verifyParity[j], sKeyBytes[j]);
         }
-        //using proofData to re cal Ecc parity  for verify comparision
+        //using proofData to re cal Ecc parity for verify comparision
         ReedSolomon reedSolomon = new ReedSolomon(DATA_SHARDS, PARITY_SHARDS);
         reCalParity = reedSolomon.encodeParity(proofData.dataProof, 0, 1);
 
@@ -190,7 +217,9 @@ public class IntegrityAuditing {
 
     }
 
-    /**/
+    /**
+     * To calculate tow byte[] array is equal or not according to the content
+     * */
     private boolean compareByteArray(byte[] a, byte[] b) {
         if (a == null || b == null) {
             return false;
