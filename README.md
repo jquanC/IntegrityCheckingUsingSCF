@@ -6,7 +6,7 @@ proposed scheme is efficient and promising for practical usage.
 
 To better reveal the possibility of cloud storage auditing protocols becoming practical, we also designed a cost model to portray the economic performance. For more technical background and details, please refer to our [manuscript](xx), which is currently being submitted.
 
-![System3](mdPics/System3.png)
+![image-20211203165932904](mdPics/image-20211203165932904.png)
 
 In the implementation, we also provide a [python script](xxx) to compute the challenge length `l` that is used by PDP scheme.
 
