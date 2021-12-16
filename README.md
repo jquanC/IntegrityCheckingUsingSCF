@@ -11,7 +11,7 @@ In the implementation, we also provide a [python script](https://github.com/jqua
 
 ## Build
 
-We use java 1.8.0_202, tencentcloud-sdk-java 3.1.210  to develop this project and use IntelliJ IDEA and Maven to compile it. For more configuration details, please refer to [pom.xml](xx).
+We use java 1.8.0_202, tencentcloud-sdk-java 3.1.210  to develop this project and use IntelliJ IDEA and Maven to compile it. For more configuration details, please refer to [pom.xml](https://github.com/jquanC/IntegrityCheckingUsingSCF/blob/master/pom.xml).
 
 Please note that when packaging serverless cloud functions, you need to modify the <build> configuration in pom.xml. 
 
