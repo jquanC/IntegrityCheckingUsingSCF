@@ -7,7 +7,7 @@ To better reveal the possibility of cloud storage auditing protocols becoming pr
 
 <img src="mdPics/System2.png" alt="System2" style="zoom:50%;" />
 
-In the implementation, we also provide a [python script](xxx) to compute the challenge length `l` that is used by PDP scheme.
+In the implementation, we also provide a [python script](https://github.com/jquanC/IntegrityCheckingUsingSCF/blob/master/challenge_length.py) to compute the challenge length `l` that is used by PDP scheme.
 
 ## Build
 
